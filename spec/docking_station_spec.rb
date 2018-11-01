@@ -48,8 +48,6 @@ describe DockingStation do
   		end
 		end
 
-
-
  	 	it { expect(DockingStation).to respond_to(:new).with(1).argument }
  	 	# this test the DockingStation needs 1 argument to be given when used
  	 	#model ans for this test is as below
