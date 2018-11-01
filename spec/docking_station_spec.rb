@@ -36,5 +36,30 @@ describe DockingStation do
  	 	it "set capacity when use DockingStation.new, default if no input" do
  	 		expect(subject.capacity).to eq DockingStation::DEFAULT_CAPACITY
  	 	end
+ 	 	#model ans as bwloe
+ 	 	describe 'initialization' do
+  		subject { DockingStation.new }
+  		let(:bike) { Bike.new }
+  		it 'defaults capacity' do
+    		described_class::DEFAULT_CAPACITY.times do
+      		subject.dock(bike)
+    		end
+    	expect{ subject.dock(bike) }.to raise_error 'docking station full'
+  		end
+		end
+
+
+
+ 	 	it { expect(DockingStation).to respond_to(:new).with(1).argument }
+ 	 	# this test the DockingStation needs 1 argument to be given when used
+ 	 	#model ans for this test is as below
+ 	 	describe "initialization" do
+ 	 		it "has a variable capacity" do
+ 	 			docking_station = DockingStation.new(50)
+ 	 			50.times { docking_station.dock(Bike.new)}
+ 	 			expect{docking_station.dock(Bike.new)}.to raise_error "docking station full"
+ 	 		end
+ 	 	end
+
 
 end
