@@ -4,13 +4,9 @@ describe DockingStation do
 
 	it { should respond_to(:release_bike)}
 
-	#it "able to call working? and return true" do
-	#	station = DockingStation.new
-	#	bike = station.release_bike
-	#	expect(bike.working?).to eq true
-	#end
-
 	it { is_expected.to respond_to(:dock).with(1).argument }
+
+	describe "#release_bike" do #nest starts
 
 		it "able to dock a normal bike then stores it in" do 
 			bike = Bike.new
@@ -23,51 +19,68 @@ describe DockingStation do
 			expect(subject.dock(bike)).to eq [0] #the passed arg shoud be in ary
 		end
 
-	describe "#release_bike" do # nested because describing behaviour specific to a particular method
 		it "show error when no bike is docked in station" do
-    	expect {subject.release_bike}.to raise_error "no bike available"
- 	 	end
+	    	expect {subject.release_bike}.to raise_error "no bike available"
+	 	end
+
  	end #nesting end
 
- 		it "if already have bike, return error when dock bike" do
- 			DockingStation::DEFAULT_CAPACITY.times do
- 				subject.dock(Bike.new) # either Bike or DockingStation, this is a var that runs in the class not method
- 			end # use "DockingStation.new" works, why pass Bike class?
-    	expect {subject.dock(Bike.new)}.to raise_error "docking station full"
- 	 	end
- 	 	#[ something = Bike.new; subject.dock(something) ] = subject.dock(Bike.new)
+ 	it "if already have bike, return error when dock bike" do
+ 		DockingStation::DEFAULT_CAPACITY.times do
+ 			subject.dock(Bike.new) # either Bike or DockingStation, this is a var that runs in the class not method
+ 		end # use "DockingStation.new" works, why pass Bike class?
+    expect {subject.dock(Bike.new)}.to raise_error "docking station full"
+ 	end
 
+	describe 'initialization' do #nest starts
 
- 	 	it "set capacity when use DockingStation.new, default if no input" do
- 	 		expect(subject.capacity).to eq DockingStation::DEFAULT_CAPACITY
- 	 	end
- 	 	#model ans as bwloe
- 	 	describe 'initialization' do
-  		let(:bike) { Bike.new }
+		let(:bike) { Bike.new }
 
-  		it 'defaults capacity' do
-    		described_class::DEFAULT_CAPACITY.times do
-      		subject.dock(bike)
-    		end
-    		expect{ subject.dock(bike) }.to raise_error 'docking station full'
-  		end
-		end
+	 	it "set capacity when use DockingStation.new, default if no input" do
+	 	 	expect(subject.capacity).to eq DockingStation::DEFAULT_CAPACITY
+	 	end
 
- 	 	it { expect(DockingStation).to respond_to(:new).with(1).argument }
- 	 	# this test the DockingStation needs 1 argument to be given when used
- 	 	#model ans for this test is as below
- 	 	describe "initialization" do
- 	 		it "has a variable capacity" do
- 	 			docking_station = DockingStation.new(50)
- 	 			50.times { docking_station.dock(Bike.new)}
- 	 			expect{docking_station.dock(Bike.new)}.to raise_error "docking station full"
- 	 		end
- 	 	end
+	  it 'defaults capacity' do
+	    described_class::DEFAULT_CAPACITY.times do
+	      subject.dock(bike)
+	    end
+	    expect{ subject.dock(bike) }.to raise_error 'docking station full'
+	  end
 
- 	 	it "do not realse broken bike - dork reported" do
+	 	it { expect(DockingStation).to respond_to(:new).with(1).argument }
+	 	 	# this test the DockingStation needs 1 argument to be given when used
+	 	 	#model ans for this test is as below
+	 	it "has a variable capacity" do
+	 	 			docking_station = DockingStation.new(50)
+	 	 			50.times { docking_station.dock(bike)}
+	 	 			expect{docking_station.dock(bike)}.to raise_error "docking station full"
+	 	end
+	end #nest end
+
+ 	 	it "do not realse broken bike - dork 1 broken" do
  	 		bike = Bike.new
  	 		bike.report_broken
  	 		subject.dock(bike)
+ 	 		expect{subject.release_bike}.to raise_error "no bike available"
+ 	 	end
+
+ 	 	it "release working bike - dork 1 working 1 broken" do
+ 	 		bike0 = Bike.new
+ 	 		subject.dock(bike0)
+ 	 		bike1 = Bike.new
+ 	 		bike1.report_broken
+ 	 		subject.dock(bike1)
+ 	 		expect(subject.release_bike).to eq 1 #pop return the poped value
+
+ 	 	end
+
+ 	 	it "do not realse broken bike - dork 1 working 1 broken " do
+ 	 		bike0 = Bike.new
+ 	 		subject.dock(bike0)
+ 	 		bike1 = Bike.new
+ 	 		bike1.report_broken
+ 	 		subject.dock(bike1)
+ 	 		subject.release_bike
  	 		expect{subject.release_bike}.to raise_error "no bike available"
  	 	end
 
