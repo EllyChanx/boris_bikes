@@ -5,13 +5,16 @@ describe Bike do
 
 	it "can be report broken" do
 		subject.report_broken
-		expect(subject.broken?).to eq true
+		expect(subject.broken).to eq true
 	end
 
-	it "bike will not pass working? if reported broken" do
-		something = Bike.new
-		something.report_broken
-		expect(something.working?).to eq false
+	it "bike is working-true if no reports" do
+		expect(subject.working?).to eq true
+	end
+
+	it "bike is working-false if reported" do
+		subject.report_broken
+		expect(subject.working?).to eq false
 	end
 
 end

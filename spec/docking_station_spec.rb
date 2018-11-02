@@ -12,15 +12,18 @@ describe DockingStation do
 
 	it { is_expected.to respond_to(:dock).with(1).argument }
 
+		it "able to dock a normal bike then stores it in" do 
+			bike = Bike.new
+			expect(subject.dock(bike)).to eq [1] #the passed arg shoud be in ary
+		end
+
+		it "able to dock a broken bike then stores it in" do 
+			bike = Bike.new
+			bike.report_broken
+			expect(subject.dock(bike)).to eq [0] #the passed arg shoud be in ary
+		end
+
 	describe "#release_bike" do # nested because describing behaviour specific to a particular method
-		it "able to dock a bike then stores it in" do 
-			expect(subject.dock(true)).to eq [1] #the passed arg shoud be in ary
-		end
-
-		it "able to dock a bike then stores it in" do 
-			expect(subject.dock(false)).to eq [0] #the passed arg shoud be in ary
-		end
-
 		it "show error when no bike is docked in station" do
     	expect {subject.release_bike}.to raise_error "no bike available"
  	 	end
@@ -40,13 +43,13 @@ describe DockingStation do
  	 	end
  	 	#model ans as bwloe
  	 	describe 'initialization' do
-  		subject { DockingStation.new }
   		let(:bike) { Bike.new }
+
   		it 'defaults capacity' do
     		described_class::DEFAULT_CAPACITY.times do
       		subject.dock(bike)
     		end
-    	expect{ subject.dock(bike) }.to raise_error 'docking station full'
+    		expect{ subject.dock(bike) }.to raise_error 'docking station full'
   		end
 		end
 
@@ -61,5 +64,11 @@ describe DockingStation do
  	 		end
  	 	end
 
+ 	 	it "do not realse broken bike - dork reported" do
+ 	 		bike = Bike.new
+ 	 		bike.report_broken
+ 	 		subject.dock(bike)
+ 	 		expect{subject.release_bike}.to raise_error "no bike available"
+ 	 	end
 
 end

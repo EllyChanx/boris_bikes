@@ -9,6 +9,7 @@ class DockingStation
 	def initialize(capacity = DEFAULT_CAPACITY)
 		@bikes = []
 		@capacity = capacity
+		@status
 	end
 	#attr_reader :bike
 	#def bike
@@ -22,12 +23,16 @@ class DockingStation
     @bikes.sort.pop # if ary contains, (pop) remove the last elem. in ary
   end
 
+  # def check_status
+  # 	@status = Bike.new
+  # 	@status.working?
+  # end
 	
-	def dock(bike_working = true) # this acts like initilize
+	def dock(bike) # this acts like initilize
 		fail "docking station full" if full?
-		if bike_working == true
+		if bike.working?
 			@bikes << 1
-		else bike_working == false
+		else 
 			@bikes << 0
 		end
 					
