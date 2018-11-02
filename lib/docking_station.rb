@@ -19,13 +19,18 @@ class DockingStation
 	def release_bike 
     #Bike.new #this release a new bike, remove at step12 becoz only release if we have bike
 		fail "no bike available" if empty?
-    @bikes.pop # if ary contains, (pop) remove the last elem. in ary
+    @bikes.sort.pop # if ary contains, (pop) remove the last elem. in ary
   end
 
 	
-	def dock(bike) # this acts like initilize
+	def dock(bike_working = true) # this acts like initilize
 		fail "docking station full" if full?
-		@bikes << bike
+		if bike_working == true
+			@bikes << 1
+		else bike_working == false
+			@bikes << 0
+		end
+					
 	end
 
 private
@@ -35,7 +40,7 @@ private
   end
 
   def empty?
-  	@bikes.empty?
+  	!@bikes.include?(1)
   end
 
 end
