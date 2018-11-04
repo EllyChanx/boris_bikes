@@ -3,11 +3,7 @@ class Bike
 	attr_reader :broken
 
 	def working?
-		if @broken
-			@working = false
-		else
-			@working = true
-		end
+		@broken ? false : true
 	end
 
 	def report_broken
