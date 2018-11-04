@@ -2,8 +2,11 @@ require "garages.rb"
 
 describe Garages do
 
-#  it "allow van to release broken bikes" do
-#    expect (.release_broken)
-#  end
+  let(:bike) { double :bike }
+
+  it "" do
+    something = Bike.new
+    expect(subject.fix_bike(something)).to eq true
+  end
 
 end

@@ -4,8 +4,9 @@ require_relative "van"
 
 class Garages
 
-  def release_broken
-    
+  def fix_bike(bike)
+    bike.report_working
+    bike.working?
   end
 
 end
